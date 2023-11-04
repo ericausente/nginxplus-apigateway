@@ -13,7 +13,7 @@ API gateways can be used for both monolithic and microservices-based apps. API g
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-apigw.conf
+**This is the base config** apigw.conf
 ```nginx
 upstream backend-api {
     server 18.143.131.133:85;

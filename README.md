@@ -170,3 +170,31 @@ server {
 
 }
 ```
+
+**NGINX PLUS: App Protect WAF**
+
+```nginx
+#add this module on /etc/nginx/nginx.conf
+load_module modules/ngx_http_app_protect_module.so;
+```
+
+create another server block for the dashboard using dashboard.conf 
+
+```nginx
+server {
+    listen 8080;
+    location /api {
+        api write=on;
+        # directives limiting access to the API
+    }
+
+    location = /dashboard.html {
+        root   /usr/share/nginx/html;
+    }
+
+    # Redirect requests made to the pre-NGINX Plus API dashboard
+    location = /status.html {
+        return 301 /dashboard.html;
+    }
+}
+```

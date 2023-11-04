@@ -54,3 +54,40 @@ server {
     }
 }
 ```
+
+**This is the config with authentication via apikey:** apigw-authentication.conf
+```nginx
+upstream backend-api {
+    server 18.143.131.133:85;
+}
+
+limit_req_zone $binary_remote_addr zone=ratelimit:20m rate=1r/s;
+limit_req_status 429;
+
+server {
+   listen 80;
+   server_name apigw.mikelabs.online;
+   location / {
+        limit_req zone=ratelimit;
+        proxy_http_version 1.1;
+        proxy_set_header   "Connection" "";
+        auth_request /_validate_apikey;
+        proxy_pass          http://backend-api;
+        error_page 429 /error429.json;
+        error_page 401 /error401.json;
+        error_page 403 /error403.json;
+    }
+    location = /error429.json {
+        internal;
+        return 429 '{"status": "error", "message": "429 Too many requests !"}';
+    }
+    location = /error401.json {
+        internal;
+        return 401 '{"status": "error", "message": "401 customized Authorization Required !"}';
+    }
+    location = /error403.json {
+        internal;
+        return 403 '{"status": "error", "message": "403 Customized Forbidden !"}';
+    }
+}
+```

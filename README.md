@@ -77,6 +77,16 @@ server {
         error_page 401 /error401.json;
         error_page 403 /error403.json;
     }
+    location = /_validate_apikey {
+        internal;
+        if ($http_apikey = "") {
+            return 401; # Unauthorized
+        }
+        if ($api_client_name = "") {
+            return 403; # Forbidden
+        }
+        return 204; # OK (no content)
+    }
     location = /error429.json {
         internal;
         return 429 '{"status": "error", "message": "429 Too many requests !"}';

@@ -61,6 +61,13 @@ upstream backend-api {
     server 18.143.131.133:85;
 }
 
+map $http_apikey $api_client_name {
+    default "";
+    "7B5zIqmRGXmrJTFmKa99vcit" "client_one";
+    "QzVV6y1EmQFbbxOfRCwyJs35" "client_two";
+    "mGcjH8Fv6U9y3BVF9H3Ypb9T" "client_three";
+}
+
 limit_req_zone $binary_remote_addr zone=ratelimit:20m rate=1r/s;
 limit_req_status 429;
 

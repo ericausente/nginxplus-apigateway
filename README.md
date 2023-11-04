@@ -149,4 +149,24 @@ server {
 }
 ```
 
+**NGINX PLUS: Enable API Dashboard**
 
+```nginx
+upstream backend-api {
+    server 18.143.131.133:85;
+    zone backend-api 32k;
+}
+
+server {
+   listen 80;
+   server_name apigw.mikelabs.online;
+   status_zone apigw.mikelabs.online;
+   location / {
+        status_zone /;
+        proxy_http_version 1.1;
+        proxy_set_header   "Connection" "";
+        proxy_pass          http://backend-api;
+    }
+
+}
+```

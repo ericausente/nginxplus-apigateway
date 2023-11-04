@@ -55,6 +55,39 @@ server {
 }
 ```
 
+**This is the config with TLS termination:** apigw-tls.conf
+```nginx
+upstream backend-api {
+    server 18.143.131.133:85;
+}
+
+limit_req_zone $binary_remote_addr zone=ratelimit:20m rate=1r/s;
+limit_req_status 429;
+
+server {
+   listen 443 ssl;
+   server_name apigw.mikelabs.online;
+   ssl_certificate      /etc/ssl/certs/api.example.com.crt;
+   ssl_certificate_key  /etc/ssl/private/api.example.com.key;
+   ssl_session_cache    shared:SSL:10m;
+   ssl_session_timeout  5m;
+   ssl_ciphers          HIGH:!aNULL:!MD5;
+   ssl_protocols        TLSv1.2 TLSv1.3;
+
+   location / {
+        limit_req zone=ratelimit;
+        proxy_http_version 1.1;
+        proxy_set_header   "Connection" "";
+        proxy_pass          http://backend-api;
+        error_page 429 /error429.json;
+    }
+    location = /error429.json {
+        internal;
+        return 429 '{"status": "error", "message": "429 Too many requests !"}';
+    }
+}
+```
+
 **This is the config with authentication via apikey:** apigw-authentication.conf
 ```nginx
 upstream backend-api {
@@ -72,8 +105,15 @@ limit_req_zone $binary_remote_addr zone=ratelimit:20m rate=1r/s;
 limit_req_status 429;
 
 server {
-   listen 80;
+   listen 443 ssl;
    server_name apigw.mikelabs.online;
+   ssl_certificate      /etc/ssl/certs/api.example.com.crt;
+   ssl_certificate_key  /etc/ssl/private/api.example.com.key;
+   ssl_session_cache    shared:SSL:10m;
+   ssl_session_timeout  5m;
+   ssl_ciphers          HIGH:!aNULL:!MD5;
+   ssl_protocols        TLSv1.2 TLSv1.3;
+
    location / {
         limit_req zone=ratelimit;
         proxy_http_version 1.1;
@@ -108,3 +148,5 @@ server {
     }
 }
 ```
+
+

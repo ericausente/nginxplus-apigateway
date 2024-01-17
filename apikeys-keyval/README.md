@@ -103,7 +103,7 @@ server {
     include api_json_errors.conf;  # API client friendly JSON error responses (save this under /etc/nginx/
     default_type application/json; # If no content-type then assume JSON
 }
-
+```
 
 3. You'll need to add the key  to the key-value store using an HTTP request (the script will take care of this for you).
 

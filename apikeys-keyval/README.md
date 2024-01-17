@@ -1,6 +1,6 @@
 ## 1. Script for API Key Generation and Store in Keyval (generate_api_key.sh):
 
-    Generate a key and use curl to add it to the NGINX Keyval store
+Generate a key and use curl to add it to the NGINX Keyval store
 
 ```
 #!/bin/bash

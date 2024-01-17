@@ -1,4 +1,4 @@
-1. Script for API Key Generation and Store in Keyval (generate_api_key.sh):
+## 1. Script for API Key Generation and Store in Keyval (generate_api_key.sh):
 
     Generate a key and use curl to add it to the NGINX Keyval store
 
@@ -11,7 +11,7 @@ curl -iX POST -d "{\"$API_KEY\":\"allowed\"}" http://localhost/api/7/http/keyval
 
 ```
 
-2. NGINX Keyval Store Configuration:
+## 2. NGINX Keyval Store Configuration:
 
 ```
 ### To mimic a backend
@@ -105,8 +105,9 @@ server {
 }
 ```
 
-3. You'll need to add the key  to the key-value store using an HTTP request (the script will take care of this for you).
+## 3. You'll need to add the key  to the key-value store using an HTTP request (the script will take care of this for you).
 
+```
 $ bash generate_api_key.sh
 HTTP/1.1 204 No Content
 Server: nginx
@@ -119,32 +120,44 @@ Date: Wed, 17 Jan 2024 01:35:29 GMT
 Content-Length: 0
 Location: http://localhost/api/7/http/keyvals/apikey/
 Connection: keep-alive
+```
 
-4. Validate the keyval contents:
-$ curl http://localhost/api/7/http/keyvals/apikey/
+## 4. Validate the keyval contents:
+```
+$curl http://localhost/api/7/http/keyvals/apikey/
 {"Ie5LkZ5JYxe8epfnPAfg2/wD":"allowed"}
+```
 
-5. Now validate the functionality:
+## 5. Now validate the functionality:
 
 XXXX
 No API Key:
 XXXX
 
+```
 $ curl http://api.example.com/api/warehouse/pricing
 {"status":401,"message":"Unauthorized"}
+```
 
 XXXX
 With apikey header but wrong value.
+```
+$ curl http://api.example.com/api/warehouse/pricing -H "apikey: q28398q2u332q989203"
+{"status":401,"message":"Unauthorized"}
+```
 
 XXXX
 Wrong header but with correct apikey value
 XXXX
-
+```
 $ curl http://api.example.com/api/warehouse/pricing -H "apike: Ie5LkZ5JYxe8epfnPAfg2/wD"
 {"status":401,"message":"Unauthorized"}
+```
 
 / / /
 Correct header and value (desired)
 / / / 
+```
 $ curl http://api.example.com/api/warehouse/pricing -H "apikey: Ie5LkZ5JYxe8epfnPAfg2/wD"
 pricing
+```

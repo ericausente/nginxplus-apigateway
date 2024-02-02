@@ -19,7 +19,7 @@ So you see, from your /etc/nginx/nginx.conf you have the following directives:
 
 
 This is from the 
-api_gateway.conf 
+## api_gateway.conf 
 
 ```
 include api_backends.conf;
@@ -94,7 +94,7 @@ map $request_method $admin_permitted_method {
 
 
 You notice that there is api_json_errors.conf  above included right?: 
-api_json_errors.conf 
+## api_json_errors.conf 
 
 ```
 error_page 400 = @400;
@@ -153,7 +153,7 @@ location @502 { return 502 '{"status":502,"message":"Bad gateway"}\n'; }
 
 
 
-api_keys.conf 
+## api_keys.conf 
 ```
 map $http_apikey $api_client_name {
     default "";
@@ -178,7 +178,7 @@ map $api_client_name $is_infrastructure {
 
 
 
-json_validation.js 
+## json_validation.js 
 ```
 export default { parseRequestBody };
 
@@ -196,7 +196,7 @@ function parseRequestBody(r) {
 ```
 
 
-warehouse_api.conf 
+## warehouse_api.conf 
 ```
 # API definition
 #
@@ -236,7 +236,7 @@ location = /_warehouse {
 
 
 
-warehouse_api_apikeys.conf  ---> I think if got API Key Authentication!
+## warehouse_api_apikeys.conf  ---> I think if got API Key Authentication!
 
 ```
 # Warehouse API
@@ -278,7 +278,7 @@ location = /_warehouse {
 # vim: syntax=nginx
 ```
 
-warehouse_api_bodysize.conf 
+## warehouse_api_bodysize.conf 
 ```
 # Warehouse API
 #
@@ -305,7 +305,7 @@ location /api/warehouse/ {
 ```
 
 
-warehouse_api_jsonbody.conf 
+## warehouse_api_jsonbody.conf 
 ```
 # Warehouse API
 #
@@ -339,7 +339,7 @@ location /api/warehouse/ {
 
 
 
-warehouse_api_methods.conf 
+## warehouse_api_methods.conf 
 ```
 # Warehouse API
 #
@@ -379,7 +379,7 @@ location /api/warehouse/ {
 # vim: syntax=nginx
 ```
 
-warehouse_api_ratelimit.conf 
+## warehouse_api_ratelimit.conf 
 ```
 # Warehouse API
 #
@@ -416,7 +416,7 @@ location /api/warehouse/ {
 ```
 
 
-warehouse_api_secured.conf 
+## warehouse_api_secured.conf 
 ```
 # Warehouse API
 #
